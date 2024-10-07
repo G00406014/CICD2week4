@@ -17,4 +17,16 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public List<Product> deleteProduct(Long id){
+        productRepository.deleteById(id);
+        return productRepository.findAll();
+    }
+
+    public void updateProduct(Long id, Product product){
+        Product updatedProduct = productRepository.getReferenceById(id);
+        updatedProduct.setProductName(product.getProductName());
+        updatedProduct.setProductDescription(product.getProductDescription());
+        productRepository.save(updatedProduct);
+    }
+
 }
