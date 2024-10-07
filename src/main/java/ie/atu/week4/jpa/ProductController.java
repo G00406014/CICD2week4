@@ -1,5 +1,6 @@
 package ie.atu.week4.jpa;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,9 +11,14 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
     private List<Product> productList = new ArrayList<>();
+    private ProductService productService;
+
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
     public ProductController() {
-        productList.add(new Product("Tv", "A big tv", 500, 100));
-        productList.add(new Product("Radio", "A small radio", 100, 101));
     }
     @GetMapping("/getProducts")
     public List<Product> getProducts() {
@@ -21,7 +27,7 @@ public class ProductController {
 
     @PostMapping("/addProduct")
     public ResponseEntity<List> addProduct(@RequestBody Product product) {
-        productList.add(product);
+        productList =  productService.add(product);
         return ResponseEntity.ok(productList);
     }
 
